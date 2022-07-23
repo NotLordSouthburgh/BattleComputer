@@ -33,7 +33,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build --repo git@github.com:NotLordSouthburgh/notlordsouthburgh.github.io.git --branch main"
+    "deploy": "gh-pages -d build --repo git@github.com:NotLordSouthburgh/notlordsouthburgh.github.io.git --branch main --before-add ./gh_pages_config.js"
   },
   "homepage": "https://notlordsouthburgh.github.io",
   "eslintConfig": {

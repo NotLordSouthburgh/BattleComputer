@@ -1,7 +1,7 @@
 // https://github.com/panchishin/geneticalgorithm
 // Just added typescript
 
-import { CpuBreatherCheck, CpuBreatherStart } from './utils';
+import { CpuBreatherCheck, CpuBreatherData, CpuBreatherStart } from './utils';
 
 type MutationFunction<PHENOTYPE> = (phenotype: PHENOTYPE) => PHENOTYPE;
 type CrossoverFunction<PHENOTYPE> = (a: PHENOTYPE, b: PHENOTYPE) => PHENOTYPE[];
@@ -15,6 +15,7 @@ export type GACSettings<PHENOTYPE> = {
   doesABeatBFunction?: DoesABeatBFunction<PHENOTYPE>;
   population: PHENOTYPE[];
   populationSize: number;
+  breath: CpuBreatherData;
 };
 
 export function geneticAlgorithmConstructor<PHENOTYPE>(
@@ -38,6 +39,7 @@ export function geneticAlgorithmConstructor<PHENOTYPE>(
 
       population: [],
       populationSize: 100,
+      breath: CpuBreatherStart(),
     };
   }
 
@@ -115,8 +117,6 @@ export function geneticAlgorithmConstructor<PHENOTYPE>(
   async function compete() {
     var nextGeneration = [];
 
-    const breath = CpuBreatherStart();
-
     for (var p = 0; p < settings.population.length - 1; p += 2) {
       var phenotype = settings.population[p];
       var competitor = settings.population[p + 1];
@@ -132,7 +132,7 @@ export function geneticAlgorithmConstructor<PHENOTYPE>(
         nextGeneration.push(competitor);
       }
 
-      await CpuBreatherCheck(breath);
+      await CpuBreatherCheck(settings.breath);
     }
 
     settings.population = nextGeneration;

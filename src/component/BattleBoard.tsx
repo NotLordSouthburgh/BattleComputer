@@ -16,6 +16,7 @@ import {
   OptimiseForBattle,
 } from '../logic/geneticOptimiser';
 import { NiceHolder } from './NiceHolder';
+import { CpuBreatherStart } from '../logic/utils';
 
 export function BattleBoard() {
   const [battleBoard, setBattleBoard] = useRecoilState(battleBoardState);

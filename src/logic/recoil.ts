@@ -7,8 +7,7 @@ import { BattleResources } from './geneticOptimiser';
 
 const persistBattleBoard = recoilPersist({ key: 'battleboard' });
 const persistGarrison = recoilPersist({ key: 'garrison' });
-
-const initialBattleBoard: BattleSetup = {
+export const initialBattleBoard: BattleSetup = {
   adversary: {},
   player: {},
   rounds: 1000,
@@ -38,11 +37,11 @@ export const garrisonState: RecoilState<BattleResources> = atom({
 //   default: initialBattleBoard,
 // });
 
-export const battleOutcomeState = selector({
-  key: 'BattleOutcome',
-  get: async ({ get }) => {
-    const board = get(battleBoardState);
-    const battleOutcome = await GetBattleOutcome(board);
-    return battleOutcome;
-  },
-});
+// export const battleOutcomeState = selector({
+//   key: 'BattleOutcome',
+//   get: async ({ get }) => {
+//     const board = get(battleBoardState);
+//     const battleOutcome = await GetBattleOutcome(board);
+//     return battleOutcome;
+//   },
+// });

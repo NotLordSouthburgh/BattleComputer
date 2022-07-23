@@ -5,7 +5,7 @@ import {
   units_info,
   UnitTypes,
 } from './unitdefs';
-import { CpuBreatherCheck, CpuBreatherStart } from './utils';
+import { CpuBreatherCheck, CpuBreatherData, CpuBreatherStart } from './utils';
 
 // type Forces = { [k in UnitTypes]: number };
 export type BattleCohort = { [k: string]: number };
@@ -135,10 +135,9 @@ export async function doBattle(
   forces_mine: BattleCohort,
   forces_theirs: BattleCohort,
   rounds: number,
-  deterministic = false
+  deterministic = false,
+  breath: CpuBreatherData
 ) {
-  const breath = CpuBreatherStart();
-
   Object.keys(units_info).forEach((u) => {
     if (forces_mine[u] == 0) delete forces_mine[u];
     if (forces_theirs[u] == 0) delete forces_theirs[u];
@@ -394,12 +393,16 @@ export type BattleOutcome = {
   battleTimeStr: string;
 };
 
-export async function GetBattleOutcome(setup: BattleSetup) {
+export async function GetBattleOutcome(
+  setup: BattleSetup,
+  breath: CpuBreatherData
+) {
   const dbResult = await doBattle(
     { ...setup.player },
     { ...setup.adversary },
     setup.rounds,
-    setup.deterministic
+    setup.deterministic,
+    breath
   );
 
   const playerHP: HPData = {

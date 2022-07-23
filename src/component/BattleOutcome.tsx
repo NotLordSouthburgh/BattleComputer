@@ -1,29 +1,99 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValueLoadable } from 'recoil';
-import { BattleOutcome } from '../logic/battle';
+import { useRecoilValue } from 'recoil';
 
-import { battleOutcomeState } from '../logic/recoil';
+import { BattleOutcome, BattleSetup, GetBattleOutcome } from '../logic/battle';
+import { PauseOptimise, UnpauseOptimise } from '../logic/geneticOptimiser';
+import { battleBoardState, initialBattleBoard } from '../logic/recoil';
 import { AdversaryDisplayOrder, HeroDisplayOrder } from '../logic/unitdefs';
+import { CpuBreatherStart } from '../logic/utils';
 import { BattleBar } from './BattleBar';
 import { UnitOutcome } from './UnitOutcome';
 
+const defaultBattleOutcome: BattleOutcome = {
+  adversary: {},
+  adversaryHP: {
+    real: 0,
+    retained: 0,
+    total: 0,
+  },
+  battleTime: 0,
+  battleTimeStr: '',
+  player: {},
+  playerHP: {
+    real: 0,
+    retained: 0,
+    total: 0,
+  },
+  setup: initialBattleBoard,
+  winRatio: 1,
+};
+
+// function useBattleOutcome() {
+//   // const [isOnline, setIsOnline] = useState(null);
+//   const [battleOutcome, setbattleOutcome] = useState(defaultBattleOutcome);
+
+//   useEffect(() => {
+//     console.log("count2 changed!");
+//   }, [count2]);
+
+//   useEffect(() => {
+//     function handleStatusChange(status) {
+//       setIsOnline(status.isOnline);
+//     }
+
+//     ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
+//     return () => {
+//       ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
+//     };
+//   });
+
+//   return isOnline;
+// }
+
+type UpdateState = {
+  updating: boolean;
+  prevBoard: string;
+};
+
+const initialUpdateState: UpdateState = {
+  updating: false,
+  prevBoard: '',
+};
+
 export function BattleOutcomePanel() {
-  const [cachedBattle, setCachedBattle] = useState<null | BattleOutcome>(null);
+  // OK I tried recoil's update but I didn't like it since it keeps cancelling the outcome as new choices come in, therefore the board never updates. That looks boring.
+  // So instead I am making my own updater.
 
-  const battleOutcomeLoad = useRecoilValueLoadable(battleOutcomeState);
+  const board = useRecoilValue(battleBoardState);
+  const [battleOutcome, setbattleOutcome] = useState(defaultBattleOutcome);
 
-  let battleOutcomeSelect: null | BattleOutcome = null;
-  if (battleOutcomeLoad.state === 'hasValue') {
-    battleOutcomeSelect = battleOutcomeLoad.contents;
-    if (cachedBattle !== battleOutcomeSelect) {
-      setCachedBattle(battleOutcomeSelect);
-    }
-  } else {
-    battleOutcomeSelect = cachedBattle;
-  }
+  const [updateState, setUpdateState] = useState(initialUpdateState);
 
-  if (battleOutcomeSelect === null) return null;
-  const battleOutcome = battleOutcomeSelect;
+  useEffect(() => {
+    // Check if the board has updated
+    const boardJSON = JSON.stringify(board);
+    if (updateState.updating) return;
+    if (boardJSON === updateState.prevBoard) return; // No board change
+
+    const kickOffUpdate = async (setup: BattleSetup, setupJSON: string) => {
+      PauseOptimise();
+      console.log('KICK OFF AN UPDATE');
+      const breath = CpuBreatherStart();
+      const battleOutcome = await GetBattleOutcome(setup, breath);
+      setbattleOutcome(battleOutcome);
+
+      // TODO: Might have to delay here
+      UnpauseOptimise();
+      setUpdateState({
+        prevBoard: setupJSON,
+        updating: false,
+      });
+    };
+
+    // Trigger the update
+    kickOffUpdate(board, boardJSON);
+    setUpdateState({ prevBoard: boardJSON, updating: true });
+  }, [board, updateState]);
 
   const playerRealHP =
     battleOutcome.playerHP.real / battleOutcome.playerHP.total;

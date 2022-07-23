@@ -1,5 +1,6 @@
 import { BattleCohort, BattleOutcome, GetBattleOutcome } from './battle';
 import { geneticAlgorithmConstructor } from './geneticalgorithm';
+import { CpuBreatherData, CpuBreatherStart } from './utils';
 // import
 
 // function mutationFunction(phenotype) {
@@ -65,7 +66,36 @@ type BattlePhenotype = {
 
 const FULLCOHORT = 100;
 
+let SingletonCPUBreath: CpuBreatherData | null = null;
+
+export function CancelOptimise() {
+  console.log(
+    'I THINK I NEED TO REWRITE THE CANCEL BIT SINCE IT ALL REFERENCES OUR GLOBAL CONSTANT AND THAT SUX'
+  );
+  if (SingletonCPUBreath === null) return;
+  SingletonCPUBreath.cancelled = true;
+  SingletonCPUBreath = null;
+}
+
+export function PauseOptimise() {
+  console.log('Pause optimisation', SingletonCPUBreath);
+  if (SingletonCPUBreath === null) return;
+  SingletonCPUBreath.paused = true;
+}
+
+export function UnpauseOptimise() {
+  console.log('UnPause optimisation', SingletonCPUBreath);
+  if (SingletonCPUBreath === null) return;
+  SingletonCPUBreath.paused = false;
+}
+
 export async function OptimiseForBattle(config: OptimiserConfig) {
+  if (SingletonCPUBreath !== null) {
+    console.log('Battle optimisation already in progress, cancelling');
+    CancelOptimise();
+  }
+  SingletonCPUBreath = CpuBreatherStart();
+
   const allSliders = [...Object.keys(config.resources), 'nothing'];
 
   const cache: { [key: string]: number } = {};
@@ -144,6 +174,7 @@ export async function OptimiseForBattle(config: OptimiserConfig) {
   };
 
   const GA = geneticAlgorithmConstructor<BattlePhenotype>({
+    breath: SingletonCPUBreath,
     population: [RandomPhenotype()],
     // populationSize: 1000,
     mutationFunction: (p) => {
@@ -207,12 +238,16 @@ export async function OptimiseForBattle(config: OptimiserConfig) {
       //   rounds: 1000,
       //   deterministic: false,
       // });
-      const outcome = await GetBattleOutcome({
-        adversary: config.adversary,
-        player: cohort,
-        rounds: 50,
-        deterministic: false,
-      });
+      if (SingletonCPUBreath === null) throw new Error('CANCELLED PROBABLY');
+      const outcome = await GetBattleOutcome(
+        {
+          adversary: config.adversary,
+          player: cohort,
+          rounds: 50,
+          deterministic: false,
+        },
+        SingletonCPUBreath
+      );
 
       p.knownWinner = outcome.winRatio > 0.99;
 

@@ -1,17 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-import southburgh from './asset/Southburgh.png';
+import React from 'react';
+import ReactGA from 'react-ga4';
+import { RecoilRoot } from 'recoil';
+
 import glasses from './asset/DWI.png';
-import { InputTile } from './component/InputTile';
-import { UnitTypes } from './logic/unitdefs';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import { battleOutcomeState } from './logic/recoil';
+import southburgh from './asset/Southburgh.png';
 import { BattleBoard } from './component/BattleBoard';
 import { Footer } from './component/Footer';
-
-import ReactGA from 'react-ga4';
+import { UnitTypes } from './logic/unitdefs';
 
 ReactGA.initialize('G-44ZPLMVXX1');
 ReactGA.send('pageview');

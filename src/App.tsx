@@ -9,6 +9,7 @@ import southburgh from './asset/Southburgh.png';
 import { BattleBoard } from './component/BattleBoard';
 import { Footer } from './component/Footer';
 import { UnitTypes } from './logic/unitdefs';
+import { Instructions } from './component/Instructions';
 
 ReactGA.initialize('G-44ZPLMVXX1');
 ReactGA.send('pageview');
@@ -49,34 +50,33 @@ const mine: UnitTypes[] = [
 function App() {
   return (
     <RecoilRoot>
-      <div>
+      <div className="flex flex-col">
         <style>{'body { background-color: #A18D76; }'}</style>
-        <header className="">
-          <div className="flex flex-row items-center justify-end">
-            <div>
-              <h1 className="text-3xl font-bold">
-                Not Lord Southburgh's Battle Computer™
-              </h1>
-              v220722
-              {/* Click here for Manual */}
-            </div>
-            <div className="h-36 shrink-0 ml-2">
-              <img
-                className="h-36 w-36 top-0 left-0"
-                src={southburgh}
-                alt="Not Lord Southburgh"
-              />
-              <img
-                className="h-36 w-36 relative -top-32 left-0"
-                src={glasses}
-                alt="Not Lord Southburgh"
-              />
-            </div>
+        <div className="flex flex-row items-center justify-end">
+          <div>
+            <h1 className="text-3xl font-bold">
+              Not Lord Southburgh's Battle Computer™
+            </h1>
+            v220724
+            {/* Click here for Manual */}
           </div>
+          <div className="h-36 shrink-0 ml-2">
+            <img
+              className="h-36 w-36 top-0 left-0"
+              src={southburgh}
+              alt="Not Lord Southburgh"
+            />
+            <img
+              className="h-36 w-36 relative -top-32 left-0"
+              src={glasses}
+              alt="Not Lord Southburgh"
+            />
+          </div>
+        </div>
 
-          <BattleBoard />
-          <Footer></Footer>
-        </header>
+        <BattleBoard />
+        <Footer></Footer>
+        <Instructions />
       </div>
     </RecoilRoot>
   );

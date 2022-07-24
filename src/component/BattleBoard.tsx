@@ -64,12 +64,13 @@ export function BattleBoard() {
         </div>
         <div className="flex flex-col">
           <NiceHolder>
+            <h1>Battlefield</h1>
             <BattleOutcomePanel />
           </NiceHolder>
         </div>
         <NiceHolder>
+          <h1>Attack Force</h1>
           <div className="flex flex-col">
-            <h1>Battlefield</h1>
             <ActionButton label="Clear All" onClick={ClearAllHeroes} />
             {HeroDisplayOrder.map((type) => (
               <InputTile unittype={type} key={type} />
@@ -79,7 +80,10 @@ export function BattleBoard() {
         <NiceHolder>
           <div className="flex flex-col">
             <h1>Garrison</h1>
-            <ActionButton label="Pick The Team" onClick={PickTheTeam} />
+            <ActionButton
+              label="Start Automatic Battle Plan"
+              onClick={PickTheTeam}
+            />
             {HeroDisplayOrder.map((type) => (
               <InputTile unittype={type} key={type} useGarrison />
             ))}

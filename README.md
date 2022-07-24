@@ -12,9 +12,7 @@ Thank You! Your work will be rewarded with the opportunity to aid in building th
 
 # How to use
 
-On the left side you have the Enemy Camp. Your army is on the right side. Punch in the number of units for each and the battle outcome will be predicted.
-
-
+I put instructions on the page, but if in doubt just click things.
 
 # Some facts about it
 

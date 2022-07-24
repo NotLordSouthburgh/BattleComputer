@@ -8,6 +8,7 @@ import { AdversaryDisplayOrder, HeroDisplayOrder } from '../logic/unitdefs';
 import { CpuBreatherStart } from '../logic/utils';
 import { BattleBar } from './BattleBar';
 import { UnitOutcome } from './UnitOutcome';
+import { VictoryOrDefeat } from './VictoryOrDefeat';
 
 const defaultBattleOutcome: BattleOutcome = {
   adversary: {},
@@ -107,19 +108,24 @@ export function BattleOutcomePanel() {
   const winRatio = battleOutcome.winRatio;
 
   return (
-    <div>
-      <BattleBar ratioAliveMax={winRatio} ratioAliveMin={winRatio} />
+    <div className="flex flex-col" style={{ width: '40rem' }}>
+      <VictoryOrDefeat properBattle winRatio={winRatio}></VictoryOrDefeat>
+
       <br></br>
-      <div className="flex flex-row">
-        <div className="flex flex-col">
-          <BattleBar
-            ratioAliveMax={adversaryRealHP}
-            ratioAliveMin={adversaryRealHP}
-          />
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-col " style={{ width: '18rem' }}>
+        <span className="text-center pb-2">
+          Orcs
+          </span>
           <BattleBar
             ratioAliveMax={adversaryRetainedHP}
             ratioAliveMin={adversaryRetainedHP}
           />
+
+          {/* <BattleBar
+            ratioAliveMax={adversaryRealHP}
+            ratioAliveMin={adversaryRealHP}
+          /> */}
 
           {AdversaryDisplayOrder.filter((item) => {
             return (battleOutcome.setup.adversary[item] || 0) > 0;
@@ -131,15 +137,24 @@ export function BattleOutcomePanel() {
             />
           ))}
         </div>
-        <div className="flex flex-col">
-          <BattleBar
-            ratioAliveMax={playerRealHP}
-            ratioAliveMin={playerRealHP}
-          />
+        <div className='place-content-center'>
+          <span className="text-center">
+          vs
+          </span>
+        </div>
+        <div className="flex flex-col"  style={{ width: '18rem' }}>
+        <span className="text-center pb-2">
+          Paragons
+          </span>
           <BattleBar
             ratioAliveMax={playerRetainedHP}
             ratioAliveMin={playerRetainedHP}
           />
+
+          {/* <BattleBar
+            ratioAliveMax={playerRealHP}
+            ratioAliveMin={playerRealHP}
+          /> */}
           {HeroDisplayOrder.filter((item) => {
             return (battleOutcome.setup.player[item] || 0) > 0;
           }).map((type) => (

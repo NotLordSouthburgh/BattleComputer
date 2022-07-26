@@ -34,6 +34,12 @@ export function Instructions() {
               (or defeat)
             </LI>
           </OL>
+          <P>
+            * Note: If your browser isn't wide enough then the parts of the
+            interface might move down the page. It works best if you make it
+            wide as possible. Zoom out if you need to. I'm sure you'll figure it
+            out.
+          </P>
           <H1>How to Automatically pick your Attack Force</H1>
           <P>
             You tell the Battle Computer what you have to work with, and it will
@@ -102,17 +108,39 @@ export function Instructions() {
               available, murdering your troops at arms length
             </LI>
           </OL>
-          <P>Feel free to fork on GitHub or send in PR's.</P>
+          <P>
+            This project is on &nbsp;
+            <a
+              className="App-link"
+              href="https://github.com/NotLordSouthburgh/BattleComputer"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            . Pull requests welcome.
+          </P>
           <H1>Privacy and Feedback</H1>
           <P>
             If you want to feedback then please submit an issue to this project
-            on GitHub.
+            on&nbsp;
+            <a
+              className="App-link"
+              href="https://github.com/NotLordSouthburgh/BattleComputer/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            .
           </P>
           <P>
             I put Google Analytics on this page just because I want to know if
             people are finding it useful. Some people hate Google but if that's
             you then you probably already block it. The data won't be going
-            anywhere else besides me looking at it over a Schnapps.
+            anywhere else besides me looking at it over a Schnapps. You might
+            also see an increase in ads on YouTube for Battle Computers. I
+            won't, all the ads I see are for Windjammers.
           </P>
         </div>
       </div>

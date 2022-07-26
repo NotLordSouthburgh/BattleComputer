@@ -42,10 +42,10 @@ export function Footer() {
             </a>
           </span>
           <span>
-            Fork me on&nbsp;
+            I put this project on&nbsp;
             <a
               className="App-link"
-              href="https://github.com/NotLordSouthburgh/PPBattleComputer"
+              href="https://github.com/NotLordSouthburgh/BattleComputer"
               target="_blank"
               rel="noopener noreferrer"
             >

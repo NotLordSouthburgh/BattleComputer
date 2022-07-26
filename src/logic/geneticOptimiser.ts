@@ -542,4 +542,11 @@ Had 100 of everything except 0 footsoldier and cannon, 13 archers.
 1 orc vetran + 71 e o sniper + mazoga, it had a fit and decideed to just quit.
 Ideal match is 90 cavalry and 10 longbow
 
+Orc Veteran 34
+Elite Orc Hunter 93
+
+100 each of Knight, Cavalry, Cuirasser, Longbow Archer, Crossbowman
+
+Goes from almost certain defeat to almost certain victory over a few steps, interesting progression
+
 */

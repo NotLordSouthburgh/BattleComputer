@@ -57,7 +57,7 @@ function App() {
             <h1 className="text-3xl font-bold">
               Not Lord Southburgh's Battle Computer™
             </h1>
-            v220724
+            v220726
             {/* Click here for Manual */}
           </div>
           <div className="h-36 shrink-0 ml-2">

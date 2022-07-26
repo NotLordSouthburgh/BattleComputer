@@ -17,12 +17,17 @@ import {
 } from '../logic/geneticOptimiser';
 import { NiceHolder } from './NiceHolder';
 import { CpuBreatherStart } from '../logic/utils';
+import ReactGA from 'react-ga4';
 
 export function BattleBoard() {
   const [battleBoard, setBattleBoard] = useRecoilState(battleBoardState);
   const [garrison, setGarrison] = useRecoilState(garrisonState);
 
   function ClearAllAdversary() {
+    ReactGA.event({
+      category: 'Clear',
+      action: 'Enemy',
+    });
     setBattleBoard({
       ...battleBoard,
       adversary: {},
@@ -30,6 +35,10 @@ export function BattleBoard() {
   }
 
   function ClearAllHeroes() {
+    ReactGA.event({
+      category: 'Clear',
+      action: 'Player',
+    });
     setBattleBoard({
       ...battleBoard,
       player: {},
@@ -37,6 +46,11 @@ export function BattleBoard() {
   }
 
   function PickTheTeam() {
+    ReactGA.event({
+      category: 'Optimise',
+      action: 'Battle',
+    });
+
     OptimiseForBattle({
       adversary: battleBoard.adversary,
       resources: garrison,
@@ -52,7 +66,7 @@ export function BattleBoard() {
 
   return (
     <div className="">
-      <div className="flex place-content-center bg-workbackground">
+      <div className="flex flex-wrap justify-center bg-workbackground">
         <div className="flex flex-col">
           <NiceHolder>
             <h1>Enemy Camp</h1>
